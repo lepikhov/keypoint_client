@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<h5>Автоматическое вычисление характерных точек по фотографии</h5>
+<br>
+<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
+    {% csrf_token %}
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+<br>
+<a class="btn-large disabled styled" id="refresh_image">Обновить изображение</a>  
+<br>
+<a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>  
+<br>
+<a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченное изображение</a> 
+<br>
+<a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a> 
+<br>
+<br>
+<img id="big_image" src="media/images/horse-smile.jpg"/>
+
+
+{%endblock%}

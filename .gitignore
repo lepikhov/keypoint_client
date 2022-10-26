@@ -1,0 +1,7 @@
+[label .gitignore]
+db.sqlite3
+*.pyc
+*.log
+build/
+temp-*
+__pycache__
