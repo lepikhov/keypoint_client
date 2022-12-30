@@ -9,7 +9,7 @@ from django.shortcuts import render
 
 from .models import Image
 from .service import keypoints_request
-from .utils import get_current_image_url, image_with_keypoints
+from .utils import get_current_image_url, image_with_keypoints, image_prepare, keypoints_resize
 
 
 def home(request):
@@ -30,6 +30,7 @@ def download_image(request):
     bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filename = 'image_with_keypoints_out.jpg' 
     filepath = os.path.join( bd, 'media/images',  filename)
+
     path = open(filepath, 'rb')
 
     mime_type, _ = mimetypes.guess_type(filepath)
@@ -58,20 +59,28 @@ def calculate_keypoints(request):
     filename = unquote(get_current_image_url()['image_url']) 
     in_filepath = bd + '/' +filename
 
+    w, h = image_prepare(in_filepath)
+    filename = 'tmp.jpg' 
+    in_filepath = os.path.join(bd, 'media/images',  filename) 
+
     imgfile = open(in_filepath, 'rb')
 
     try:
         kp = keypoints_request(imgfile)
     except ConnectionError:
         return HttpResponse("media/images/horse-smile.jpg")   
+    
+    kp = keypoints_resize(kp, w, h)
 
     filename = 'keypoints.json' 
-    kp_filepath = os.path.join( bd, 'media/data',  filename)
+    kp_filepath = os.path.join(bd, 'media/data',  filename)
     with open(kp_filepath, 'w') as jsonfile:
         json.dump(kp, jsonfile) 
 
-    filename = 'image_with_keypoints_out.jpg' 
+    filename = unquote(get_current_image_url()['image_url']) 
+    in_filepath = bd + '/' +filename          
 
+    filename = 'image_with_keypoints_out.jpg' 
     out_filepath = os.path.join( bd, 'media/images',  filename)        
 
     image_with_keypoints(in_filepath, kp, out_filepath)

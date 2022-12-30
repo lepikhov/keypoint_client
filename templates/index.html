@@ -10,6 +10,8 @@
     </div>
 </form>
 <br>
+{% include 'preloader.html' %}
+<br>
 <a class="btn-large disabled styled" id="refresh_image">Обновить изображение</a>  
 <br>
 <a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>  
@@ -17,6 +19,7 @@
 <a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченное изображение</a> 
 <br>
 <a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a> 
+<br>
 <br>
 <br>
 <img id="big_image" src="media/images/horse-smile.jpg"/>
