@@ -23,6 +23,8 @@ def clear_db(request):
 def file_upload(request):
     if request.method == 'POST':
         my_file=request.FILES.get('file')
+        if not request.session.session_key:
+            request.session.create()
         Image.objects.create(image=my_file, key=request.session.session_key)  
         return HttpResponse('')
     return JsonResponse({'post':'false'})      
