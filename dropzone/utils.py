@@ -1,16 +1,26 @@
+import os
+from datetime import date, datetime
+
 import matplotlib.image as mpimg
 from django.core.exceptions import ObjectDoesNotExist
 from matplotlib import pyplot as plt
+from PIL import Image as pi
 from skimage import io, transform
 
 from .models import Image
-from PIL import Image as pi
-import os
 
 
-def get_current_image_url():
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))    
+
+def get_current_image_url(key):
     try: 
-        image=Image.objects.latest('pk')
+        #image=Image.objects.latest('pk')
+        image=Image.objects.filter(key=key).order_by('date').last()
     except ObjectDoesNotExist:
         image = None
 

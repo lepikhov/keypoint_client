@@ -27,7 +27,7 @@ DEBUG = True
 #DEBUG = False
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru']
+ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1']
 
 
 # Application definition

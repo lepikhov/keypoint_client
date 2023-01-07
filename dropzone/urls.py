@@ -9,6 +9,7 @@ urlpatterns = [
     path('download_image/', views.download_image),    
     path('download_keypoints/', views.download_keypoints),  
     path('calculate_keypoints/', views.calculate_keypoints),   
+    path('clear_db/', views.clear_db),     
 ]
 
 
