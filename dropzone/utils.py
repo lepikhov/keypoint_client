@@ -31,6 +31,7 @@ def get_current_image_url(key):
 
 def image_prepare(imgfile):
     img = pi.open(imgfile)
+    img = img.convert('RGB')
     width, height = img.size
     img = img.resize((224, 224))
     #img = np.array(img)
