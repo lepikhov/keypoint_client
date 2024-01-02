@@ -1,5 +1,5 @@
 Dropzone.autoDiscover=false;
-Dropzone.prototype.defaultOptions.dictDefaultMessage = "Перетащите изображение сюда или нажмите для загрузки.";
+Dropzone.prototype.defaultOptions.dictDefaultMessage = "Перетащите медиафайл сюда или нажмите для загрузки.";
 Dropzone.prototype.defaultOptions.dictFallbackMessage = "Ваш браузер не поддерживает drag'n'drop загрузку файлов.";
 Dropzone.prototype.defaultOptions.dictFallbackText = "Пожалуйста, используйте резервную форму ниже, чтобы загрузить свои файлы, как в старые времена.";
 Dropzone.prototype.defaultOptions.dictFileTooBig = "Файл слишком большой ({{filesize}}MiB). Максимальный размер: {{maxFilesize}}MiB.";
@@ -12,9 +12,10 @@ Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any
 const myDropzone= new Dropzone('#my-dropzone',{
     url:'upload/',
     maxFiles:1,
-    maxFilesize:40,
-    acceptedFiles:"image/jpeg,image/png,image/gif", 
+    maxFilesize:200,
+    acceptedFiles:"image/jpeg,image/png,image/gif,video/*", 
     addRemoveLinks:true,
+    timeout:0,
     /*
     init: function() {
         this.on("maxfilesexceeded", function() {

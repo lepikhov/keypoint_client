@@ -1,13 +1,17 @@
 from urllib import response
 
 import requests
-from keypoint_client.config import SERVER_TIMEOUT, SERVER_URL
+from keypoint_client.config import (SERVER_DELETE_TMP_URL,
+                                    SERVER_DOWNLOAD_VIDEO_URL,
+                                    SERVER_PREDICT_IMAGE_URL,
+                                    SERVER_PREDICT_VIDEO_URL, SERVER_TIMEOUT)
 
 
-def keypoints_request(file=None):
+
+def keypoints_for_image_request(file=None, token='12345'):
 
     try:
-        resp = requests.post(SERVER_URL, files = {"file": file}, timeout=SERVER_TIMEOUT)
+        resp = requests.put(f'{SERVER_PREDICT_IMAGE_URL}/{token}', files = {"file": file}, timeout=SERVER_TIMEOUT)
         print(resp.elapsed.total_seconds())
     except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
         raise ConnectionError  
@@ -16,3 +20,44 @@ def keypoints_request(file=None):
         raise ConnectionError   
 
     return resp.json()
+
+def keypoints_for_video_request(file=None, token='12345', extension='mp4'):
+    try:
+        resp = requests.put(f'{SERVER_PREDICT_VIDEO_URL}/{extension}/{token}', 
+                             files = {"file": file}, timeout=SERVER_TIMEOUT)
+        print(resp.elapsed.total_seconds())
+    except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+        raise ConnectionError  
+
+    if not resp.ok:
+        print(resp.status_code)        
+        raise ConnectionError   
+
+    return resp.json()
+
+def download_video_request(filepath=None, token='12345'):
+    try:
+        resp = requests.get(f'{SERVER_DOWNLOAD_VIDEO_URL}/{token}', 
+                             timeout=SERVER_TIMEOUT)
+        print(resp.elapsed.total_seconds())
+    except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+        raise ConnectionError  
+
+    if not resp.ok:
+        print(resp.status_code)
+        raise ConnectionError   
+
+    open(filepath, 'wb').write(resp.content)
+
+def delete_tmp_request(token='12345'):
+    #if 1:
+    try:
+        resp = requests.delete(f'{SERVER_DELETE_TMP_URL}/{token}', 
+                             timeout=SERVER_TIMEOUT)
+        print(resp.elapsed.total_seconds())
+    except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+        raise ConnectionError  
+
+    if not resp.ok:
+        print(resp.status_code)        
+        raise ConnectionError      

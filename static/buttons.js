@@ -1,11 +1,30 @@
 let cur_button = "nothing"
 
+
 $('#refresh_image').click(function(){
 
     cur_button = 'refresh_image'
     
     $.get('/update_image/', function(data){
-        $('#big_image').attr("src", data)
+        data = JSON.parse(data);
+        if (data['media_type']==='video'){           
+            if ($('#big_image').length) {
+                $('#big_image').detach()
+            }
+            if ($('#video').length==0) {
+                $('#media').append('<video id="video" preload="none" controls></video>')
+            }    
+            $('#video').attr("src", data['image_url'])
+        }    
+        else {
+            if ($('#video').length) {
+                $('#video').detach()
+            }
+            if ($('#big_image').length==0) {
+                $('#media').append('<img id="big_image"/>')
+            }    
+            $('#big_image').attr("src", data['image_url'])
+        }
     });
 
 });
@@ -20,7 +39,26 @@ $('#calculate').click(function(){
     $('#download_keypoints').attr("class", "btn-large disabled styled")    
 
     $.get('/calculate_keypoints/', function(data){
-        $('#big_image').attr("src", data)
+        data = JSON.parse(data);
+        console.log(data)
+        if (data['media_type']==='video'){           
+            if ($('#big_image').length) {
+                $('#big_image').detach()
+            }
+            if ($('#video').length==0) {
+                $('#media').append('<video id="video" preload="none" controls></video>')
+            }    
+            $('#video').attr("src", data['image_url'])
+        }    
+        else {
+            if ($('#video').length) {
+                $('#video').detach()
+            }
+            if ($('#big_image').length==0) {
+                $('#media').append('<img id="big_image"/>')
+            }    
+            $('#big_image').attr("src", data['image_url'])
+        }
     });
 
 

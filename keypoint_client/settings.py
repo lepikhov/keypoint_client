@@ -23,11 +23,11 @@ import os
 SECRET_KEY = 'xr*ka17giro0cpj$(id%oggcirmgb!i8q1cn&3qez$=(f_*xel'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = False
+#DEBUG = True
+DEBUG = False
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1']
+ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1', '192.168.5.141']
 
 
 # Application definition
@@ -129,3 +129,5 @@ else:
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'    
+
+CSRF_TRUSTED_ORIGINS = ['https://ai-ai-ai.ru']

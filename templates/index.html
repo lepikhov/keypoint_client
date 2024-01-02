@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {%block content%}
-<h5>Автоматическое вычисление характерных точек по фотографии</h5>
+<nav>
+  <ul>
+    <li><a href=# title="https://ai-ai-ai.ru/"><img class="navicon" src="media/images/logo_blk.svg" alt="VNIIK"></a></li>
+  </ul>
+ </nav>
+<h5>Автоматическое вычисление характерных точек по фото или видео</h5>
 <br>
 <form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
     {% csrf_token %}
@@ -16,13 +21,20 @@
 <br>
 <a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>  
 <br>
-<a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченное изображение</a> 
+<a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченный медиафайл</a> 
 <br>
 <a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a> 
 <br>
 <br>
 <br>
+<p id="media">
 <img id="big_image" src="media/images/horse-smile.jpg"/>
-
-
+{% comment %}
+<video id="video" 
+src="media/images/6.mp4" 
+preload="none"
+controls
+></video> 
+{% endcomment %}
+</p>
 {%endblock%}

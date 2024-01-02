@@ -33,7 +33,7 @@ def image_prepare(imgfile):
     img = pi.open(imgfile)
     img = img.convert('RGB')
     width, height = img.size
-    img = img.resize((224, 224))
+    ##img = img.resize((224, 224))
     #img = np.array(img)
     #img = np.expand_dims(img, 0)
     bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,12 +49,14 @@ def keypoints_resize(kp, width, height):
     return [[x[0]*width/224, x[1]*height/224] for x in kp]
 
 
+
 def image_with_keypoints(in_imgfile, kp, out_imgfile):
 
     #kp=list(map(lambda x: convert(x, 1804/2386), kp))  #only for emulation
 
     img = mpimg.imread(in_imgfile)   
     h, w, _ = img.shape 
+    print(h,w)
     fig = plt.figure(figsize=(6.4, 6.4*h/w))
     fig_size = fig.get_size_inches()
     plt.axis('off')
