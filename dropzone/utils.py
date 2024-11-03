@@ -65,4 +65,11 @@ def image_with_keypoints(in_imgfile, kp, out_imgfile):
     for i in range(len(kp)):        
         plt.plot(kp[i][0], kp[i][1], 'x', color='red')
     plt.savefig(out_imgfile, dpi=w/fig_size[0])
+    
+    
+def traits_short_info(traits_extended_info):
+    traits = {}
+    for v in traits_extended_info.values():
+        traits[v[0]] = v[1]
+    return traits      
 

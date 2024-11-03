@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{%block content%}
+<a target="_blank" rel="noopener noreferrer">
+    <table class="bordered striped highlight centered responsive-table">            
+        <thead>
+            <tr>
+                <th>номер стати</th>
+                <th>название стати</th>
+                <th>значение</th>
+             </tr>
+        </thead>  
+        <tbody>
+        {% for k, v in data.items %} 
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ k }}</td>
+                <td>{{ v }}</td>  
+            </tr>    
+        {% endfor %}
+        </tbody>    
+    </table>  
+</a>     
+{%endblock%}

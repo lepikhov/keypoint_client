@@ -26,8 +26,8 @@ SECRET_KEY = 'xr*ka17giro0cpj$(id%oggcirmgb!i8q1cn&3qez$=(f_*xel'
 #DEBUG = True
 DEBUG = False
 
-#ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1', '192.168.5.141']
+#ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1', '192.168.5.141', '10.0.0.2']
 
 
 # Application definition

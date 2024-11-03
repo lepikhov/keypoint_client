@@ -9,9 +9,10 @@ from django.shortcuts import render
 
 from .models import Image
 from .service import (delete_tmp_request, download_video_request,
-                      keypoints_for_image_request, keypoints_for_video_request)
-from .utils import (get_current_image_url, image_prepare, image_with_keypoints,
+                      keypoints_for_image_request, keypoints_for_video_request, traits_for_image_request)
+from .utils import (get_current_image_url, image_prepare, image_with_keypoints, traits_short_info,
                     json_serial, keypoints_resize)
+
 
 
 def home(request):
@@ -161,9 +162,59 @@ def calculate_keypoints(request):
          )       
 
 
+ 
+def predict_traits(request):     
+    bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    filename = unquote(get_current_image_url(request.session.session_key)['image_url']) 
+    in_filepath = bd + '/' +filename
+
+    media_type = 'image'
+
+    _, extension = os.path.splitext(in_filepath)
+
+    if extension in ['.mp4', '.avi', '.webm']:    
+    #can't predict traits for videos 
+        return HttpResponse(
+            json.dumps({'error': 'cannot predict traits for vodeo'})
+        ) 
+
+    #images
+    imgfile = open(in_filepath, 'rb')
+
+    try:
+        traits = traits_for_image_request(imgfile)
+    except ConnectionError:
+        return HttpResponse(
+            json.dumps({'error': 'server request error'})
+        )              
+            
+    print(traits)            
+
+    filename = 'traits_' + request.session.session_key + '.json' 
+    kp_filepath = os.path.join(bd, 'media/data',  filename)
+    with open(kp_filepath, 'w') as jsonfile:
+        json.dump(traits, jsonfile, ensure_ascii=True) 
+   
+    if 'error' in traits.keys():
+        return HttpResponse(json.dumps(traits))
+    
+    return HttpResponse(
+        json.dumps(traits_short_info(traits))
+    )
 
 
+def download_traits(request):
+    bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = 'traits_' + request.session.session_key + '.json' 
+    filepath = os.path.join( bd, 'media/data',  filename)
+    path = open(filepath, 'r')
 
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % os.path.basename(filename)
+
+    return response
         
 
 

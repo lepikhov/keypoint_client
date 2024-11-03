@@ -6,7 +6,6 @@
     <li><a href=# title="https://ai-ai-ai.ru/"><img class="navicon" src="media/images/logo_blk.svg" alt="VNIIK"></a></li>
   </ul>
  </nav>
-<h5>Автоматическое вычисление характерных точек по фото или видео</h5>
 <br>
 <form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
     {% csrf_token %}
@@ -15,9 +14,21 @@
     </div>
 </form>
 <br>
+<p id="media">
+  <img id="big_image" src="media/images/horse-smile.jpg"/>
+  {% comment %}
+  <video id="video" 
+  src="media/images/6.mp4" 
+  preload="none"
+  controls
+  ></video> 
+  {% endcomment %}
+</p>
 {% include 'preloader.html' %}
 <br>
 <a class="btn-large disabled styled" id="refresh_image">Обновить изображение</a>  
+<br>
+<h5>Автоматическое вычисление характерных точек по фото или видео</h5>
 <br>
 <a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>  
 <br>
@@ -26,15 +37,15 @@
 <a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a> 
 <br>
 <br>
+<h5>Автоматическое определение статей по фото</h5>
 <br>
-<p id="media">
-<img id="big_image" src="media/images/horse-smile.jpg"/>
-{% comment %}
-<video id="video" 
-src="media/images/6.mp4" 
-preload="none"
-controls
-></video> 
-{% endcomment %}
-</p>
+<a class="btn-large disabled styled" id="predict_traits">Определить стати</a> 
+<br>
+<a href="download_traits/" class="btn-large disabled styled" id="download_traits">Скачать стати</a> 
+<br>
+<br>
+<hr>
+<br>
+<div id="traits_table_place"></div>
+{#% include 'traits.html' %#}
 {%endblock%}
