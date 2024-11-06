@@ -1,15 +1,15 @@
 Dropzone.autoDiscover=false
-Dropzone.prototype.defaultOptions.dictDefaultMessage = "Перетащите медиафайл сюда или нажмите для загрузки.";
-Dropzone.prototype.defaultOptions.dictFallbackMessage = "Ваш браузер не поддерживает drag'n'drop загрузку файлов.";
-Dropzone.prototype.defaultOptions.dictFallbackText = "Пожалуйста, используйте резервную форму ниже, чтобы загрузить свои файлы, как в старые времена.";
-Dropzone.prototype.defaultOptions.dictFileTooBig = "Файл слишком большой ({{filesize}}MiB). Максимальный размер: {{maxFilesize}}MiB.";
-Dropzone.prototype.defaultOptions.dictInvalidFileType = "Вы не можете загрузить файл данного типа.";
-Dropzone.prototype.defaultOptions.dictResponseError = "Сервер ответил с кодом {{statusCode}}.";
-Dropzone.prototype.defaultOptions.dictCancelUpload = "Отменить загрузку";
-Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "Вы уверены, что хотите отменить эту загрузку?";
-Dropzone.prototype.defaultOptions.dictRemoveFile = "Удалить файл";
-Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any more files.";
 const myDropzone= new Dropzone('#my-dropzone',{
+    dictDefaultMessage:"Перетащите медиафайл сюда или нажмите для загрузки",
+    dictFallbackMessage:"Ваш браузер не поддерживает drag'n'drop загрузку файлов",
+    dictFallbackText:"Пожалуйста, используйте резервную форму ниже, чтобы загрузить свои файлы",
+    dictFileTooBig:"Файл слишком большой ({{filesize}}MiB). Максимальный размер: {{maxFilesize}}MiB",
+    dictInvalidFileType:"Вы не можете загрузить файл данного типа",
+    dictResponseError:"Сервер ответил с кодом {{statusCode}}",
+    dictCancelUpload:"Отменить загрузку",
+    dictCancelUploadConfirmation:"Вы уверены, что хотите отменить эту загрузку?",
+    dictRemoveFile:"Удалить файл",
+    dictMaxFilesExceeded:"Не не можете загрузить больше файлов",
     url:'upload/',
     maxFiles:1,
     maxFilesize:200,
