@@ -71,5 +71,12 @@ def traits_short_info(traits_extended_info):
     traits = {}
     for v in traits_extended_info.values():
         traits[v[0]] = v[1]
-    return traits      
+    return traits  
+
+def traits_correct_info(traits_info, correct_list):
+    traits = {}
+    for t in correct_list:
+        traits[t] = traits_info[t]
+    #print(traits)
+    return traits     
 

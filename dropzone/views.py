@@ -9,8 +9,8 @@ from django.shortcuts import render
 
 from .models import Image
 from .service import (delete_tmp_request, download_video_request,
-                      keypoints_for_image_request, keypoints_for_video_request, traits_for_image_request)
-from .utils import (get_current_image_url, image_prepare, image_with_keypoints, traits_short_info,
+                      keypoints_for_image_request, keypoints_for_video_request, traits_for_image_any_request, traits_for_image_orlovskaya_request)
+from .utils import (get_current_image_url, image_prepare, image_with_keypoints, traits_short_info, traits_correct_info,
                     json_serial, keypoints_resize)
 
 
@@ -162,8 +162,40 @@ def calculate_keypoints(request):
          )       
 
 
+
+TRAITS_CORRECT_LIST_ANY = [
+    "голова", 
+    "затылок",
+    "шея (длина)",
+    "шея выход",     
+    "холка, длина", 
+    "холка (высота)",    
+    "лопатка",      
+    "лопатка (длина)", 
+    "спина",     
+    "спина (длина)", 
+    "поясница",     
+    "круп",     
+    "круп(длина)", 
+    "ложные ребра", 
+    "грудная клетка", 
+    "предплечье",     
+    "передняя бабка(длина)",     
+    #"передняя бабка (угол 11)", 
+    "передняя бабка (угол 12)", 
+    #"бедро", 
+    "голень",     
+    "скакательный сустав", 
+    "задняя бабка (длина)",     
+    #"задняя бабка (угол 14)", 
+    "задняя бабка (угол 15)", 
+]
+
+TRAITS_CORRECT_LIST_ORLOVSKAYA = TRAITS_CORRECT_LIST_ANY.copy()
+TRAITS_CORRECT_LIST_ORLOVSKAYA.append('выраженность типа')
+
  
-def predict_traits(request):     
+def predict_traits_any(request):     
     bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     filename = unquote(get_current_image_url(request.session.session_key)['image_url']) 
@@ -183,7 +215,7 @@ def predict_traits(request):
     imgfile = open(in_filepath, 'rb')
 
     try:
-        traits = traits_for_image_request(imgfile)
+        traits = traits_for_image_any_request(imgfile)
     except ConnectionError:
         return HttpResponse(
             json.dumps({'error': 'server request error'})
@@ -200,9 +232,50 @@ def predict_traits(request):
         return HttpResponse(json.dumps(traits))
     
     return HttpResponse(
-        json.dumps(traits_short_info(traits))
+        json.dumps(traits_correct_info(traits_short_info(traits),TRAITS_CORRECT_LIST_ANY), sort_keys=False)
     )
 
+def predict_traits_orlovskaya(request):     
+    bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    filename = unquote(get_current_image_url(request.session.session_key)['image_url']) 
+    in_filepath = bd + '/' +filename
+
+    media_type = 'image'
+
+    _, extension = os.path.splitext(in_filepath)
+
+    if extension in ['.mp4', '.avi', '.webm']:    
+    #can't predict traits for videos 
+        return HttpResponse(
+            json.dumps({'error': 'cannot predict traits for vodeo'})
+        ) 
+
+    #images
+    imgfile = open(in_filepath, 'rb')
+
+    try:
+        traits = traits_for_image_orlovskaya_request(imgfile)
+    except ConnectionError:
+        return HttpResponse(
+            json.dumps({'error': 'server request error'})
+        )              
+            
+    print(traits, TRAITS_CORRECT_LIST_ORLOVSKAYA)            
+
+    filename = 'traits_' + request.session.session_key + '.json' 
+    kp_filepath = os.path.join(bd, 'media/data',  filename)
+    with open(kp_filepath, 'w') as jsonfile:
+        json.dump(traits, jsonfile, ensure_ascii=True) 
+   
+    if 'error' in traits.keys():
+        return HttpResponse(json.dumps(traits))
+    
+    print(traits)
+
+    return HttpResponse(
+        json.dumps(traits_correct_info(traits_short_info(traits),TRAITS_CORRECT_LIST_ORLOVSKAYA), sort_keys=False)
+    )
 
 def download_traits(request):
     bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

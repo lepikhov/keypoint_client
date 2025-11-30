@@ -9,8 +9,9 @@ urlpatterns = [
     path('download_image/', views.download_image),    
     path('download_keypoints/', views.download_keypoints),  
     path('calculate_keypoints/', views.calculate_keypoints),  
-    path('predict_traits/', views.predict_traits),    
-    path('download_traits/', views.download_traits),       
+    path('predict_traits_any/', views.predict_traits_any),   
+    path('predict_traits_orlovskaya/', views.predict_traits_orlovskaya),     
+    path('download_traits/', views.download_traits),             
     path('clear_db/', views.clear_db),     
 ]
 

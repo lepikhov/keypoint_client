@@ -45,7 +45,8 @@ $('#calculate').click(function(){
     $('#calculate').attr("class", "btn-large disabled styled")
     $('#download_image').attr("class", "btn-large disabled styled")
     $('#download_keypoints').attr("class", "btn-large disabled styled")    
-    $('#predict_traits').attr("class", "btn-large disabled styled")
+    $('#predict_traits_any').attr("class", "btn-large disabled styled")
+    $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")    
     $('#download_traits').attr("class", "btn-large disabled styled")      
 
     $.get('/calculate_keypoints/', function(data){
@@ -82,9 +83,9 @@ $('#download_keypoints').click(function(){
     cur_button = 'download_keypoints'
 })
 
-$('#predict_traits').click(function(){
+$('#predict_traits_any').click(function(){
 
-    cur_button = 'predict_traits'
+    cur_button = 'predict_traits_any'
     traits_is_predicted = true
 
     
@@ -92,10 +93,55 @@ $('#predict_traits').click(function(){
     $('#calculate').attr("class", "btn-large disabled styled")
     $('#download_image').attr("class", "btn-large disabled styled")
     $('#download_keypoints').attr("class", "btn-large disabled styled")    
-    $('#predict_traits').attr("class", "btn-large disabled styled")
+    $('#predict_traits_any').attr("class", "btn-large disabled styled")
+    $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")    
     $('#download_traits').attr("class", "btn-large disabled styled")      
 
-    $.get('/predict_traits/', function(data){
+    $.get('/predict_traits_any/', function(data){
+        data = JSON.parse(data)
+        
+        if ($('#traits_table').length) $('#traits_table').detach()
+        if ($('#traits_error_message').length) $('#traits_error_message').detach()
+
+        if (data.hasOwnProperty('error')) {
+            $('#traits_table_place').append('<div id="traits_error_message">' + data['error'] + '</div>')  
+            return
+        }    
+
+        var table = $('<table class="bordered striped highlight centered responsive-table" id="traits_table"/>')
+        var head = $('<thead><tr><th>номер стати</th><th>название стати</th><th>значение</th></tr></thead>')        
+        table.append(head)
+        var body = $('<tbody/>')
+        var i = 1
+        for (const [key, val] of Object.entries(data)) {
+              var row = $('<tr/>')
+              row.append('<td>' + i++ + '</td>')              
+              row.append('<td>' + key + '</td>')
+              row.append('<td>' + val + '</td>')
+              body.append(row)
+        }                      
+        table.append(body)
+        $('#traits_table_place').append(table)       
+    })
+
+})
+
+
+$('#predict_traits_orlovskaya').click(function(){
+
+    cur_button = 'predict_traits_orlovskaya'
+    traits_is_predicted = true
+
+    
+    $('#refresh_image').attr("class", "btn-large disabled styled")
+    $('#calculate').attr("class", "btn-large disabled styled")
+    $('#download_image').attr("class", "btn-large disabled styled")
+    $('#download_keypoints').attr("class", "btn-large disabled styled")    
+    $('#predict_traits_any').attr("class", "btn-large disabled styled")
+    $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")    
+    $('#download_traits').attr("class", "btn-large disabled styled")      
+
+    $.get('/predict_traits_orlovskaya/', function(data){
         data = JSON.parse(data)
         
         if ($('#traits_table').length) $('#traits_table').detach()
@@ -137,18 +183,20 @@ $(document).on("ajaxSend", function() {
         $('#calculate').attr("class", "waves-effect btn-large styled")
         $('#download_image').attr("class", "btn-large disabled styled")
         $('#download_keypoints').attr("class", "btn-large disabled styled")
-        $('#predict_traits').attr("class", "waves-effect btn-large styled")
+        $('#predict_traits_any').attr("class", "waves-effect btn-large styled")
+        $('#predict_traits_orlovskaya').attr("class", "waves-effect btn-large styled")        
         $('#download_traits').attr("class", "btn-large disabled styled")          
     }
     else {
-        if ((cur_button === 'calculate')||(cur_button === 'predict_traits')) {
+        if ((cur_button === 'calculate')||(cur_button === 'predict_traits_any')||(cur_button === 'predict_traits_orlovskaya')) {
             $('#refresh_image').attr("class", "waves-effect btn-large styled")
             $('#calculate').attr("class", "waves-effect btn-large styled")
             if (keypoints_is_calculated) {
                 $('#download_image').attr("class", "waves-effect btn-large styled")
                 $('#download_keypoints').attr("class", "waves-effect btn-large styled")
             }    
-            $('#predict_traits').attr("class", "waves-effect btn-large styled")
+            $('#predict_traits_any').attr("class", "waves-effect btn-large styled")
+            $('#predict_traits_orlovskaya').attr("class", "waves-effect btn-large styled")            
             if (traits_is_predicted) $('#download_traits').attr("class", "waves-effect btn-large styled")              
         }
     }

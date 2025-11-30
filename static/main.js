@@ -22,7 +22,8 @@ const myDropzone= new Dropzone('#my-dropzone',{
       $('#calculate').attr("class", "btn-large disabled styled")
       $('#download_image').attr("class", "btn-large disabled styled")
       $('#download_keypoints').attr("class", "btn-large disabled styled") 
-      $('#predict_traits').attr("class", "btn-large disabled styled")
+      $('#predict_traits_any').attr("class", "btn-large disabled styled")
+      $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")      
       $('#download_traits').attr("class", "btn-large disabled styled")       
       return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0
     },
@@ -36,7 +37,8 @@ const myDropzone= new Dropzone('#my-dropzone',{
           $('#calculate').attr("class", "btn-large disabled styled")
           $('#download_image').attr("class", "btn-large disabled styled")
           $('#download_keypoints').attr("class", "btn-large disabled styled")  
-          $('#predict_traits').attr("class", "btn-large disabled styled")
+          $('#predict_traits_any').attr("class", "btn-large disabled styled")
+          $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")          
           $('#download_traits').attr("class", "btn-large disabled styled")               
         })
                 
@@ -50,7 +52,8 @@ const myDropzone= new Dropzone('#my-dropzone',{
           $('#calculate').attr("class", "btn-large disabled styled")
           $('#download_image').attr("class", "btn-large disabled styled")
           $('#download_keypoints').attr("class", "btn-large disabled styled") 
-          $('#predict_traits').attr("class", "btn-large disabled styled")
+          $('#predict_traits_any').attr("class", "btn-large disabled styled")
+          $('#predict_traits_orlovskaya').attr("class", "btn-large disabled styled")          
           $('#download_traits').attr("class", "btn-large disabled styled")            
         })       
     }
