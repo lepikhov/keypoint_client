@@ -13,7 +13,11 @@ from .service import (delete_tmp_request, download_video_request,
 from .utils import (get_current_image_url, image_prepare, image_with_keypoints, traits_short_info, traits_correct_info,
                     json_serial, keypoints_resize)
 
-
+import base64
+from PIL import Image as PIL_Image
+import io
+from django.core.files.base import ContentFile
+from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     return render(request, 'index.html', 
@@ -288,6 +292,30 @@ def download_traits(request):
     response['Content-Disposition'] = "attachment; filename=%s" % os.path.basename(filename)
 
     return response
+
+@csrf_exempt
+def update_edited_image(request):
+    if request.method == 'POST':
+        # Получаем данные 
+        image_data = request.POST.get('image_data')
+        
+        # Декодируем base64
+        format, imgstr = image_data.split(';base64,')
+        
+        # Преобразуем в PIL Image
+        image_bytes = base64.b64decode(imgstr)
+        image = PIL_Image.open(io.BytesIO(image_bytes))
+         
+        bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        filename = unquote(get_current_image_url(request.session.session_key)['image_url']) 
+        filepath = bd + '/' +filename        
+        
+        image.save(filepath)
+        return update_image(request)
+    
+    return JsonResponse({'error': 'Invalid method'})
+    
         
 
 

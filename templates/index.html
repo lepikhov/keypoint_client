@@ -3,47 +3,77 @@
 {%block content%}
 <nav>
   <ul>
-    <li><a href=# title="https://ai-ai-ai.ru/"><img class="navicon" src="media/images/logo_blk.svg" alt="VNIIK"></a></li>
+    <li><a href=# title="https://ai-ai-ai.ru/"><img class="navicon" src="media/images/logo_blk.svg" alt="VNIIK"></a>
+    </li>
   </ul>
- </nav>
+</nav>
 <br>
-<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
+<div id="dropzone-container">
+  <form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone">
     {% csrf_token %}
     <div class="fallback">
       <input name="file" type="file" multiple />
     </div>
-</form>
+  </form>
+  <br>
+  <form action="#">
+    <p>
+      <label>
+        <input id="enable-editor" type="checkbox" />
+        <span>Редактировать изображение</span>
+      </label>
+    </p>
+  </form>
+  <!-- Контейнер для предпросмотра и обрезки -->
+  <div id="image-editor" style="display: none" class="editor">
+    <div style="max-width: 80%; margin: 0 auto;">
+      <img id="image-to-crop" style="max-width: 100%; margin: 10px">
+    </div>
+
+    <div class="controls">
+      <div class="edit_buttons_container">
+        <i id="crop-btn" class="medium material-icons edit_button icon_button">crop</i>
+        <i id="reset-crop-btn" class="medium material-icons edit_button icon_button">clear</i>
+        <i id="rotate-left-btn" class="medium  material-icons edit_button icon_button">rotate_left</i>
+        <i id="rotate-right-btn" class="medium  material-icons edit_button icon_button">rotate_right</i>
+        <i id="rotate-reset-btn" class="medium material-icons edit_button icon_button">clear</i>
+        <i id="update-edited-btn" class="medium material-icons edit_button icon_button">done</i>
+        <i id="cancel-edit-btn" class="medium material-icons edit_button icon_button">cancel</i>
+      </div>
+      <!-- Информация о текущем повороте -->
+      <div id="rotation-info" style="margin-top: 10px; color: #666; text-align: center;">
+        Угол поворота: <span id="rotation-angle">0°</span>
+      </div>
+    </div>
+  </div>
+</div>
 <br>
 <p id="media">
-  <img id="big_image" src="media/images/horse-smile.jpg"/>
+  <img id="big_image" src="media/images/horse-smile.jpg" />
   {% comment %}
-  <video id="video" 
-  src="media/images/6.mp4" 
-  preload="none"
-  controls
-  ></video> 
+  <video id="video" src="media/images/6.mp4" preload="none" controls></video>
   {% endcomment %}
 </p>
 {% include 'preloader.html' %}
 <br>
-<a class="btn-large disabled styled" id="refresh_image">Обновить изображение</a>  
+<a class="btn-large disabled styled" id="refresh_image">Обновить изображение</a>
 <br>
 <h5>Автоматическое вычисление характерных точек по фото или видео</h5>
 <br>
-<a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>  
+<a class="btn-large disabled styled" id="calculate">Вычислить характерные точки</a>
 <br>
-<a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченный медиафайл</a> 
+<a href="download_image/" class="btn-large disabled styled" id="download_image">Скачать размеченный медиафайл</a>
 <br>
-<a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a> 
+<a href="download_keypoints/" class="btn-large disabled styled" id="download_keypoints">Скачать характерные точки</a>
 <br>
 <br>
 <h5>Автоматическое определение статей по фото</h5>
 <br>
-<a class="btn-large disabled styled" id="predict_traits_any">Определить стати (любая порода)</a> 
+<a class="btn-large disabled styled" id="predict_traits_any">Определить стати (любая порода)</a>
 <br>
-<a class="btn-large disabled styled" id="predict_traits_orlovskaya">Определить стати (орловская порода)</a> 
+<a class="btn-large disabled styled" id="predict_traits_orlovskaya">Определить стати (орловская порода)</a>
 <br>
-<a href="download_traits/" class="btn-large disabled styled" id="download_traits">Скачать стати</a> 
+<a href="download_traits/" class="btn-large disabled styled" id="download_traits">Скачать стати</a>
 <br>
 <br>
 <hr>

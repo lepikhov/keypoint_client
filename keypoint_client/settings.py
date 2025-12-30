@@ -23,10 +23,10 @@ import os
 SECRET_KEY = 'xr*ka17giro0cpj$(id%oggcirmgb!i8q1cn&3qez$=(f_*xel'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = False
+DEBUG = True
+#DEBUG = False
 
-#ALLOWED_HOSTS = [*]
+#ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['37.228.117.115', 'localhost', '.ai-ai-ai.ru', '127.0.0.1', '192.168.5.141', '10.0.0.2', '192.168.0.60', '176.124.216.119']
 
 

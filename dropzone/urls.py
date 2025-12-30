@@ -13,6 +13,7 @@ urlpatterns = [
     path('predict_traits_orlovskaya/', views.predict_traits_orlovskaya),     
     path('download_traits/', views.download_traits),             
     path('clear_db/', views.clear_db),     
+    path('update_edited_image/', views.update_edited_image, name='update_edited_image'),
 ]
 
 

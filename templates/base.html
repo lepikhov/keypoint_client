@@ -1,46 +1,98 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- custom css & js -->
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <!-- Compiled and minified materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">    
-    <script src="{% static 'main.js' %}" defer></script>
-    <script src="{% static 'buttons.js' %}" defer></script>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!--
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- custom css & js -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <!-- Compiled and minified materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+  <script src="{% static 'main.js' %}" defer></script>
+  <script src="{% static 'buttons.js' %}" defer></script>
+
+  <!--
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    -->  
-      
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    
+    -->
+
+  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 
 
-    <title>{% block title %}Simple horses auto keypointer and traits predictor{% endblock title %}</title>
-  </head>
-  <body>
-    <div class="container mt-3">
-        {% block content %}
-        {% endblock content %}
+
+  <title>{% block title %}Simple horses auto keypointer and traits predictor{% endblock title %}</title>
+</head>
+
+<body>
+  <div class="container mt-3">
+    {% block content %}
+    {% endblock content %}
+    <!-- Уведомление о cookies -->
+    <div id="cookie-notice" class="cookie-notice">
+      <div class="cookie-notice-container">
+        <p>
+          Мы используем файлы cookie для улучшения работы сайта
+        </p>
+        <button id="cookie-accept" class="cookie-btn">Принять</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Compiled and minified materialized JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>    
-  </body>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Compiled and minified materialized JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <!-- JavaScript для работы с cookies -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cookieNotice = document.getElementById('cookie-notice');
+      const cookieAccept = document.getElementById('cookie-accept');
+
+      // Проверяем, было ли уже принято
+      if (!getCookie('cookies_accepted')) {
+        cookieNotice.style.display = 'block'
+      }
+
+      // Обработчик принятия
+      cookieAccept.addEventListener('click', function () {
+        setCookie('cookies_accepted', 'true', 365)
+        cookieNotice.style.display = 'none'
+      });
+
+      // Функции для работы с cookies
+      function setCookie(name, value, days) {
+        const d = new Date()
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000))
+        const expires = "expires=" + d.toUTCString()
+        document.cookie = name + "=" + value + ";" + expires + ";path=/"
+      }
+
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';')
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i]
+          while (c.charAt(0) === ' ') c = c.substring(1)
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length)
+        }
+        return null
+      }
+    })
+  </script>
+</body>
+
 </html>
